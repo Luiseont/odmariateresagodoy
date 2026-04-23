@@ -164,8 +164,21 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-image">
-          <div class="profile-img-wrapper">
-            <img src="assets/profile.jpg" alt="Od. María Teresa Godoy - Odontólogo especialista en la Colonia Tovar" class="profile-img" loading="lazy">
+          <div class="carousel-container">
+            <div class="carousel-slides">
+              <div class="carousel-slide active">
+                <img src="assets/profile.jpg" alt="Od. María Teresa Godoy - Perfil" loading="lazy">
+              </div>
+              <div class="carousel-slide">
+                <img src="assets/car1.jpg" alt="Consultorio Odontológico - Instalaciones" loading="lazy">
+              </div>
+              <div class="carousel-slide">
+                <img src="assets/car2.jpg" alt="Equipamiento Odontológico" loading="lazy">
+              </div>
+            </div>
+            <div class="carousel-progress-bar">
+              <div class="carousel-progress-fill" id="carouselProgress"></div>
+            </div>
           </div>
         </div>
         <div class="about-content">
@@ -380,6 +393,36 @@
         }
       });
     });
+
+    // CAROUSEL LOGIC
+    const slides = document.querySelectorAll('.carousel-slide');
+    const progressFill = document.getElementById('carouselProgress');
+    let currentSlide = 0;
+    const slideInterval = 5000; // 5 segundos
+
+    function showNextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+      
+      // Reset progress bar
+      resetProgressBar();
+    }
+
+    function resetProgressBar() {
+      progressFill.style.transition = 'none';
+      progressFill.style.width = '0%';
+      
+      // Forzar reflow para que el navegador note el cambio
+      progressFill.offsetHeight; 
+      
+      progressFill.style.transition = `width ${slideInterval}ms linear`;
+      progressFill.style.width = '100%';
+    }
+
+    // Inicializar carrusel
+    resetProgressBar();
+    setInterval(showNextSlide, slideInterval);
   </script>
 
 </body>
